@@ -3,3 +3,4 @@ __pycache__
 simulator/dpdp_competition/algorithm/data_interaction
 *.log
 simulator/dpdp_competition/programs/
+simulator/dpdp_competition/main_algorithm.*
