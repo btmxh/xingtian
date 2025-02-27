@@ -59,7 +59,11 @@ def get_algorithm_calling_command():
             if algorithm_language == 'python':
                 return 'python {}'.format(file)
             elif algorithm_language == 'java':
-                return 'java {}'.format(file.split('.')[0])
+                if end_name == 'jar':
+                    return 'java -jar {}'.format(file)
+                else:
+                    return 'java {}'.format(file.split('.')[:-1])
+
             # c和c++调用方式一样，但系统不同调用方式有异
             elif algorithm_language == 'c':
                 system = platform.system()

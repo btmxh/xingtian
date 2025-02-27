@@ -79,6 +79,7 @@ class Configs(object):
     # 算法语言映射表
     ALGORITHM_LANGUAGE_MAP = {'py': 'python',
                               'class': 'java',
+                              'jar': 'java',
                               'exe': 'c',
                               'out': 'c',
                               }
