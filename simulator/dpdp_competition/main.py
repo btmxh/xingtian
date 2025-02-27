@@ -22,14 +22,28 @@ import traceback
 import datetime
 import numpy as np
 import sys
+import os
+import shutil
 
 from src.conf.configs import Configs
 from src.simulator.simulate_api import simulate
 from src.utils.log_utils import ini_logger, remove_file_handler_of_logging
 from src.utils.logging_engine import logger
-# from naie.metrics import report
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        program = sys.argv[1]
+        program_ext = os.path.splitext(program)[1]
+        for file in os.listdir(Configs.root_folder_path):
+            if file.startswith("main_algorithm"):
+                os.remove(os.path.join(Configs.root_folder_path, file))
+        shutil.copy(program, Configs.ALGORITHM_ENTRY_FILE_NAME + program_ext)
+    selected_instances_args = sys.argv[2] if len(sys.argv) > 2 else ""
+    if selected_instances_args != "":
+        Configs.selected_instances = [int(x) for x in selected_instances_args.split(",")]
+    else:
+        Configs.selected_instances = []
+
     # if you want to traverse all instances, set the selected_instances to []
     selected_instances = Configs.selected_instances
 
@@ -48,7 +62,9 @@ if __name__ == "__main__":
         logger.info(f"Start to run {instance}")
 
         try:
-            score = simulate(Configs.factory_info_file, Configs.route_info_file, instance)
+            score = simulate(
+                Configs.factory_info_file, Configs.route_info_file, instance
+            )
             score_list.append(score)
             logger.info(f"Score of {instance}: {score}")
         except Exception as e:
